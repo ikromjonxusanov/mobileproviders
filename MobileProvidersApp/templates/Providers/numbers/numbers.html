@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}  
+<div class="row">
+        {% for object in numbers %}
+            
+            {% if not object.status %}
+            
+            <div class="col-lg-4 col-md-6 h-100 mb-3">
+                {% if object.category.name == "Bronze" %}
+                <div class="card  text-light" style="background-color: #B08D57">
+                {% elif object.category.name == "Silver" %}
+                <div class="card  text-dark" style="background-color: #C0C0C0">
+                {% elif object.category.name == "Gold" %}
+                    <div class="card text-dark" style="background-color: #D4AF37">
+                {% else %}
+                <div class="card">
+                {% endif %}
+                        <img src="{{ object.code.provider.profilePicture.url }}" class="w-100 card-img-top" height="200px" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">{{object.code.provider}}</h5>
+                          <p class="card-text">{{object}}</p>
+                          {% if user.groups.all.0.name == "dealer" %}
+                            <a href="{% url 'numberBuy' object.id %}" class="mt-3 w-100 btn btn-success">Buy</a>
+                          {% elif user.groups.all.0.name == "provider" %}
+                            <a href="{% url 'numberBuy' object.id %}" class="mt-3 w-100 btn btn-success">Buy</a>
+                          {% endif %}
+                            
+                        </div>
+                      </div>
+                    
+                </div>
+           {% endif %}
+        {% endfor %} 
+</div>
+    
+    
+{% endblock %}

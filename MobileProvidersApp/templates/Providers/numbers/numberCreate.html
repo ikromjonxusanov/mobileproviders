@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="POST" class="my-5">
+    {% csrf_token %}
+    {{ form.number | as_crispy_field }}
+    <div id="div_id_code" class="form-group"> 
+        <label for="id_code" class=" requiredField">
+            Code
+            <span class="asteriskField">*</span> 
+        </label>
+        <div class=""> 
+            <select name="code" class="select form-control" required="" id="id_code">
+                <option value="" selected="">---------</option>
+                
+                {% if codes %}
+                    
+                {% for object in codes %}
+                <option value="{{object.id}}">{{object.code}}</option>
+                {% endfor %}
+                {% endif %}
+                    
+            </select> 
+        </div>
+    </div>
+    {{ form.category | as_crispy_field }}
+    <button class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

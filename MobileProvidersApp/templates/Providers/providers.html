@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    {% if providers %}
+    <div class="row">
+        {% for object in providers %}
+        <div class="col-lg-6 col-md-12 my-3">
+            <div class="card baseBlock">
+                <img class="card-img-top" data-src="holder.js/100px180/" alt="100%x180"
+                    style="height: 180px; width: 100%; display: block;"
+                    src="{{ object.profilePicture.url }}"
+                    data-holder-rendered="true">
+                <div class="card-body">
+                    <h4 class="card-title">{{object.name}}</h4>
+                    <p class="card-text">{{ object.description|slice:":100" }}...</p>
+                    <a href="{% url 'provider' object.id %}" class="btn btn-outline-primary px-5">more...</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h1 class="slide alert alert-danger">Not found Providers</h1>
+    {% endif %}
+    </div>
+{% endblock %}

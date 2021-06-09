@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row bg-light p-5 my-5 ">
+  {% if user.is_superuser %}
+  <h1>Site clients</h1>
+  {% else %}
+  <h1>{{request.user.provider}} clients</h1>
+  {% endif %}
+{% if clients %}
+  <div class="bg-white p-5 rounded">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        {% if user.is_superuser %}
+        <th scope="col">Provider</th>
+        {% endif %}
+        <th scope="col">Full name</th>
+        <th scope="col">Number</th>
+        <th scope="col">PassportID</th>
+        <th scope="col">Address</th>
+        <th scope="col">startDate</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for object in clients %}
+          <tr>
+            {% if user.is_superuser %}
+            <th scope="row">{{ object.number.code.provider }}</th>
+            {% endif %}
+            <td >{{ object.fullname }}</td>
+            <td>{{ object.number }}</td>
+            <td>{{ object.passportID }}</td>
+            <td>{{ object.address }}</td>
+            <td>{{ object.startDate }}</td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+  </div>
+  {% else %}
+
+  <div class="my-5 w-100 alert alert-danger">
+    Hozircha ma'lumot yo'q
+  </div>
+
+
+  {% endif %}
+</div>
+
+
+{% endblock %}

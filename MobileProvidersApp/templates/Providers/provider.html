@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 col-md-12">
+        <div class="w-100 card" style="width: 18rem;">
+    <img src="{{ provider.profilePicture.url }}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{ provider.name }}</h5>
+      <p class="card-text">
+
+          <!-- Button trigger modal -->
+        <button type="button" class="w-100 btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          {{ provider.name }} about us
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                      {{ provider.name }} about us
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {{ provider.description }}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </p>
+
+      {% if user.provider == provider %}
+      <a href="{% url 'providerSettings' %}" class="w-100 btn btn-outline-primary">
+        Provider setting
+      </a>
+        {% endif %}
+
+    </div>
+  </div>
+    </div>
+    <div class="col-lg-6">
+        {% if provider.code_set.all %}
+          <table class="table table-lg">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Code</th>
+                <th scope="col">Start Date</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for object in provider.code_set.all %}
+                  <tr>
+                    <th scope="row">{{ object.id }}</th>
+                    <td>{{ object.code }}</td>
+                    <td>{{ object.create_date }}</td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+      <div class="my-5 w-100 alert alert-danger">
+        Hozircha ma'lumot yo'q
+      </div>
+        {% endif %}
+        {% if user.provider == provider %}
+        <div class="card text-center text-dark bg-light  mb-3" id="total-orders">
+            <div class="card-header">
+              <h5 class="card-title">Manage Provider</h5>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">
+                <div>
+                    <a href="{% url 'regDealer' %}" class="w-100 btn btn-outline-primary">
+                        <i class="bi bi-pencil-square"></i>
+                        <span><strong>Create Dealer</strong></span>
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'numberCreateMore' provider.id %}" class="mt-3 btn w-100 btn-outline-success a-btn-slide-text">
+                        <i class="bi bi-plus"></i>
+                        <span><strong>Create Number</strong></span>
+                    </a>
+                </div>
+              </h3>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+  {% if numbers %}
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">number</th>
+        <th scope="col">status</th>
+        <th scope="col">create_date</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for object in numbers %}
+          <tr>
+            <th scope="row">{{ object.id }}</th>
+            <td>{{ object }}</td>
+            <td>{{ object.status }}</td>
+            <td>{{ object.create_date }}</td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+
+  <div class="my-5 w-100 alert alert-danger">
+    Hozircha ma'lumot yo'q
+  </div>
+
+
+  {% endif %}
+{% endblock  %}
